@@ -1,0 +1,32 @@
+version: "3.9"
+services:
+  db:
+    container_name: "db"
+    image: postgres:13.3
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=postgres
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres -p postgres -d db" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    networks:
+      - custom
+    volumes:
+#      - ../2. Init Database:/docker-entrypoint-initdb.d
+#      - ./pgdata:/var/lib/postgresql/data
+      - ./docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+      - ./pgdata:/var/lib/postgresql/data
+
+networks:
+  custom:
+    driver: bridge
+
+volumes:
+  pgdata:
