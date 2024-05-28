@@ -1,3 +1,7 @@
 fastapi
 uvicorn
-aiosqlite
+aiopg
+asyncpg
+databases
+sqlalchemy
+pytest
